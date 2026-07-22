@@ -79,6 +79,19 @@
             font-weight:600;
         }
 
+        .analytics-btn{
+            display:inline-block;
+            background:#667eea;
+            color:white;
+            padding:8px 15px;
+            border-radius:8px;
+        }
+
+        .analytics-btn:hover{
+            background:#4b5fd1;
+            color:white;
+        }
+
         table{
             width:100%;
             border-collapse:collapse;
@@ -130,10 +143,13 @@
 
         <h1>🔗 URL Shortener</h1>
 
+
         <% if (locals.id) { %>
 
         <div class="generated">
+
             <strong>Your Short URL:</strong>
+
             <br><br>
 
             <a href="/url/<%= id %>">
@@ -142,10 +158,18 @@
 
             <br><br>
 
+            <a class="analytics-btn" href="/url/analytics/<%= id %>">
+                📊 View Analytics
+            </a>
+
+            <br><br>
+
             Click the link above to test your shortened URL 🚀
+
         </div>
 
         <% } %>
+
 
 
         <form method="post" action="/url">
@@ -169,13 +193,16 @@
 
         </form>
 
+
     </div>
 
 
 
     <% if (locals.urls) { %>
 
+
     <div class="card">
+
 
         <h2>📊 URL Analytics</h2>
 
@@ -189,6 +216,7 @@
                     <th>Short URL</th>
                     <th>Original URL</th>
                     <th>Clicks</th>
+                    <th>Analytics</th>
                 </tr>
 
             </thead>
@@ -207,9 +235,11 @@
 
 
                     <td>
+
                         <a href="/url/<%= url.shortId %>">
                             /url/<%= url.shortId %>
                         </a>
+
                     </td>
 
 
@@ -223,6 +253,18 @@
                     </td>
 
 
+                    <td>
+
+                        <a class="analytics-btn" 
+                           href="/url/analytics/<%= url.shortId %>">
+
+                            📊 View
+
+                        </a>
+
+                    </td>
+
+
                 </tr>
 
 
@@ -231,10 +273,12 @@
 
             </tbody>
 
+
         </table>
 
 
     </div>
+
 
     <% } %>
 
