@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const {connectToMongoDB} = require("./connect");
 const path = require("path");
@@ -6,9 +7,9 @@ const URL = require("./models/url");
 const urlRoute = require("./routes/url");
 const staticRoute = require("./routes/staticRoute");
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
-connectToMongoDB('mongodb://localhost:27017/url-shortener').then(()=> console.log("MongoDB connected"));
+connectToMongoDB(process.env.MONGO_URL).then(()=> console.log("MongoDB connected"));
 
 app.set("view engine","ejs");
 app.set("views",path.resolve("./views"));
