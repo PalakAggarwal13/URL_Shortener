@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Analytics</title>
+
+    <style>
+        body{
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            padding:40px;
+        }
+
+        .card{
+            max-width:700px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            color:#4b0082;
+        }
+
+        .box{
+            background:#f3f5ff;
+            padding:15px;
+            margin:15px 0;
+            border-radius:12px;
+        }
+
+        .click{
+            padding:10px;
+            border-bottom:1px solid #ddd;
+        }
+
+        a{
+            color:#667eea;
+            text-decoration:none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="card">
+
+<h1>📊 URL Analytics</h1>
+
+
+<div class="box">
+    <b>Short ID:</b>
+    <%= url.shortId %>
+</div>
+
+
+<div class="box">
+    <b>Original URL:</b>
+    <br>
+    <a href="<%= url.redirectURL %>" target="_blank">
+        <%= url.redirectURL %>
+    </a>
+</div>
+
+
+<div class="box">
+    <b>Total Clicks:</b>
+    <%= url.visitedHistory.length %>
+</div>
+
+
+<div class="box">
+
+    <b>Click History:</b>
+
+    <% if(url.visitedHistory.length === 0){ %>
+
+        <p>No clicks yet</p>
+
+    <% } else { %>
+
+        <% url.visitedHistory.forEach((visit,index)=>{ %>
+
+            <div class="click">
+                Click <%= index+1 %> :
+                <%= new Date(visit.timestamp).toLocaleString() %>
+            </div>
+
+        <% }) %>
+
+    <% } %>
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>
