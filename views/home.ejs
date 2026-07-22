@@ -1,53 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomePage</title>
+    <title>URL Shortener</title>
+
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            margin:0;
+            padding:40px;
+            color:#333;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:35px;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom:30px;
+        }
+
+        h1{
+            text-align:center;
+            color:#4b0082;
+            margin-bottom:25px;
+        }
+
+        label{
+            font-weight:600;
+        }
+
+        input{
+            width:80%;
+            padding:12px;
+            margin-top:15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:16px;
+        }
+
+        button{
+            padding:12px 25px;
+            background:#667eea;
+            color:white;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:16px;
+            margin-left:10px;
+        }
+
+        button:hover{
+            background:#4b5fd1;
+        }
+
+        .generated{
+            background:#f1f5ff;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+
+        a{
+            color:#667eea;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th{
+            background:#667eea;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:12px;
+            border-bottom:1px solid #ddd;
+            text-align:center;
+        }
+
+        tr:hover{
+            background:#f7f7f7;
+        }
+
+        .footer{
+            text-align:center;
+            color:white;
+            margin-top:20px;
+        }
+
+        @media(max-width:700px){
+            input{
+                width:100%;
+                margin-bottom:15px;
+            }
+
+            button{
+                margin-left:0;
+            }
+        }
+
+    </style>
 </head>
+
+
 <body>
-    <h1>URL Shortener</h1>
-    <% if (locals.id) { %>
-     <p>URL Generated : http://localhost:8000/url/<%= id %></p>
-    <% } %>
-    <div>
-        <form method="post" action="/url">
-            <label>Enter your Original URL here:</label>
-            <input type="text"                   placeholder="http://example.com" name="url">
-            <button type="submit">Generate</button>
-        </form>
-    </div>
-    <div>
-        <% if (locals.urls) { %>
-            <table>
-                <thead>
-                    <tr>
-                    <th>S.No.</th>
-                    <th>ShortID</th>
-                    <th>RedirectURL</th>
-                    <th>Total Clicks</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <% urls.forEach((url,index) => { %>
-                        <tr>
-                            <td><%= index+1 %></td>
-                        <td><p>
-                            http://localhost:8000/url/<%= url.shortId %>
-                        </p></td>
-                        <td><%= url.redirectURL %></td>
-                        <td><%= url.visitedHistory.length %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>🔗 URL Shortener</h1>
+
+        <% if (locals.id) { %>
+
+        <div class="generated">
+            <strong>Your Short URL:</strong>
+            <br><br>
+
+            <a href="/url/<%= id %>">
+                <%= id %>
+            </a>
+
+            <br><br>
+
+            Click the link above to test your shortened URL 🚀
+        </div>
+
         <% } %>
+
+
+        <form method="post" action="/url">
+
+            <label>
+                Enter your original URL:
+            </label>
+
+            <br>
+
+            <input 
+                type="text"
+                placeholder="https://example.com"
+                name="url"
+                required
+            >
+
+            <button type="submit">
+                Generate
+            </button>
+
+        </form>
+
     </div>
-    
+
+
+
+    <% if (locals.urls) { %>
+
+    <div class="card">
+
+        <h2>📊 URL Analytics</h2>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>S.No.</th>
+                    <th>Short URL</th>
+                    <th>Original URL</th>
+                    <th>Clicks</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            <% urls.forEach((url,index)=>{ %>
+
+                <tr>
+
+                    <td>
+                        <%= index+1 %>
+                    </td>
+
+
+                    <td>
+                        <a href="/url/<%= url.shortId %>">
+                            /url/<%= url.shortId %>
+                        </a>
+                    </td>
+
+
+                    <td>
+                        <%= url.redirectURL %>
+                    </td>
+
+
+                    <td>
+                        <%= url.visitedHistory.length %>
+                    </td>
+
+
+                </tr>
+
+
+            <% }) %>
+
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+    <% } %>
+
+
+</div>
+
+
+<div class="footer">
+    Built with Node.js, Express & MongoDB 🚀
+</div>
+
+
 </body>
 </html>
